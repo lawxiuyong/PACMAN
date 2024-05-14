@@ -19,14 +19,14 @@ reg            vga_hs;
 reg            vga_vs;
 reg [7:0]      vga_col;
 
-localparam     VGA_X_SIZE   = 800;
-localparam     VGA_Y_SIZE   = 525;
-localparam     VGA_HS_BEGIN = 656;
-localparam     VGA_HS_SIZE  =  96;
-localparam     VGA_VS_BEGIN = 490;
-localparam     VGA_VS_SIZE  =   2;
-localparam     VGA_X_PIXELS = 640;
-localparam     VGA_Y_PIXELS = 480;
+localparam     VGA_X_SIZE   = 1650;
+localparam     VGA_Y_SIZE   = 750;
+localparam     VGA_HS_BEGIN = 1390;
+localparam     VGA_HS_SIZE  =  40;
+localparam     VGA_VS_BEGIN = 725;
+localparam     VGA_VS_SIZE  =   5;
+localparam     VGA_X_PIXELS = 1280;
+localparam     VGA_Y_PIXELS = 720;
 
 always @ (posedge clk100_i)
 begin
