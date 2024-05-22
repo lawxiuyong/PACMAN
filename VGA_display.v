@@ -78,23 +78,3 @@ assign vga_vs_o  = vga_vs;
 assign vga_col_o = vga_col;
 
 endmodule
-
-module vga_tb;
-
-reg          clk100 = 0;
-wire         vga_hs;
-wire         vga_vs;
-wire [7:0]   vga_col;
-
-always begin
-   #20 clk100 = !clk100;
-end
-
-vga DUT (
-   .clk100_i  (clk100),
-   .vga_hs_o  (vga_hs),
-   .vga_vs_o  (vga_vs),
-   .vga_col_o (vga_col)
-);
-
-endmodule
