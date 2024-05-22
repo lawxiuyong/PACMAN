@@ -1,15 +1,10 @@
 module vga (
-   clk100_i,
-   vga_hs_o,
-   vga_vs_o,
-   vga_col_o
+   input clk100_i,
+   output vga_hs_o,
+   output vga_vs_o,
+   output [7:0] vga_col_o
 );
-
-    input          clk100_i;
-    output         vga_hs_o;
-    output         vga_vs_o;
-    output [7:0]   vga_col_o;
-    
+  
     //internal signals
     wire           vga_clk;
     reg [1:0]      clk_cnt   = 0;
@@ -20,22 +15,26 @@ module vga (
     reg [7:0]      vga_col;
     
     //VGA timing parameters
-   localparam     VGA_X_SIZE   = 1650;
-   localparam     VGA_Y_SIZE   = 750;
-   localparam     VGA_HS_BEGIN = 1390;
-   localparam     VGA_HS_SIZE  =  40;
-   localparam     VGA_VS_BEGIN = 725;
-   localparam     VGA_VS_SIZE  =   5;
-   localparam     VGA_X_PIXELS = 1280;
-   localparam     VGA_Y_PIXELS = 720;
+    localparam     VGA_X_SIZE   = 1650;
+    localparam     VGA_Y_SIZE   = 750;
+    localparam     VGA_HS_BEGIN = 1390;
+    localparam     VGA_HS_SIZE  =  40;
+    localparam     VGA_VS_BEGIN = 725;
+    localparam     VGA_VS_SIZE  =   5;
+    localparam     VGA_X_PIXELS = 1280;
+    localparam     VGA_Y_PIXELS = 720;
     
-    //clock divider
-    always @ (posedge clk100_i)
-    begin
-       clk_cnt <= clk_cnt + 1;
-    end
-    
-    assign vga_clk = clk_cnt[1];
+    //clock wizard
+    clk_wiz_0 instance_name
+   (
+    // Clock out ports
+    .clk_out1(clk_out1),     // output clk_out1
+    // Status and control signals
+    .reset(reset), // input reset
+    .locked(locked),       // output locked
+   // Clock in ports
+    .clk_in1(clk_in1)      // input clk_in1
+    );
     
     //horizontal pixel counter
     always @ (posedge vga_clk)
