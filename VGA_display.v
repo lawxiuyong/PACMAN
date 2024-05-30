@@ -2,17 +2,17 @@ module vga (
    input clk100_i,
    output vga_hs_o,
    output vga_vs_o,
-   output [7:0] vga_col_o
+   output [3:0] vga_red,
+   output [3:0] vga_green,
+   output [3:0] vga_blue
 );
   
     //internal signals
     wire           vga_clk;
-    reg [1:0]      clk_cnt   = 0;
-    reg [9:0]      vga_pix_x = 0;
-    reg [9:0]      vga_pix_y = 0;
+    reg [23:0]     vga_pix_x = 0;
+    reg [23:0]     vga_pix_y = 0;
     reg            vga_hs;
     reg            vga_vs;
-    reg [7:0]      vga_col;
     
     //VGA timing parameters
     localparam     VGA_X_SIZE   = 1650;
@@ -28,12 +28,9 @@ module vga (
     clk_wiz_0 instance_name
    (
     // Clock out ports
-    .clk_out1(clk_out1),     // output clk_out1
-    // Status and control signals
-    .reset(reset), // input reset
-    .locked(locked),       // output locked
+    .clk_out1(vga_clk),     // output clk_out1
    // Clock in ports
-    .clk_in1(clk_in1)      // input clk_in1
+    .clk_in1(clk100_i)      // input clk_in1
     );
     
     //horizontal pixel counter
@@ -73,14 +70,18 @@ module vga (
         end
         
         //color signal
-        vga_col <= 0;
-        if (vga_pix_x < VGA_X_PIXELS && vga_pix_y < VGA_Y_PIXELS) begin
-          vga_col <= vga_pix_x[8:1] ^ vga_pix_y[8:1];
-        end
+        //vga_col <= 0;
+        //if (vga_pix_x < VGA_X_PIXELS && vga_pix_y < VGA_Y_PIXELS) begin
+          //vga_col <= vga_pix_x[8:1] ^ vga_pix_y[8:1];
+          //end
     end
     
     assign vga_hs_o  = vga_hs;
     assign vga_vs_o  = vga_vs;
-    assign vga_col_o = vga_col;
+    
+    //color signal
+    assign vga_red = (vga_pix_x < 1540 && vga_pix_x > 259 && vga_pix_y < 745 && vga_pix_y > 24) ? 4'hF:4'h0;
+    assign vga_green = (vga_pix_x < 1540 && vga_pix_x > 259 && vga_pix_y < 745 && vga_pix_y > 24) ? 4'hF:4'h0;
+    assign vga_blue = (vga_pix_x < 1540 && vga_pix_x > 259 && vga_pix_y < 745 && vga_pix_y > 24) ? 4'hF:4'h0;
 
 endmodule
